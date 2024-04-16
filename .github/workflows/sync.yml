@@ -1,0 +1,22 @@
+# File: .github/workflows/repo-sync.yml
+name: repo-sync
+
+on:
+  schedule:
+  - cron:  "0 0 * * *"
+  workflow_dispatch:
+
+jobs:
+  repo-sync:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v4
+      with:
+        persist-credentials: false
+    - name: repo-sync
+      uses: repo-sync/github-sync@v2
+      with:
+        source_repo: "ScoopInstaller/BucketTemplate"
+        source_branch: "master"
+        destination_branch: "master"
+        github_token: ${{ secrets.WORKFLOW_TOKEN }}
