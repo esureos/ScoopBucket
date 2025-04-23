@@ -1,13 +1,21 @@
 {
     "homepage": "https://music.163.com/",
     "description": "The official NetEase Cloud Music client.",
-    "version": "2.10.13.202675_32",
+    "version": "3.1.7.203649",
     "license": {
         "identifier": "EULA",
         "url": "https://music.163.com/html/web2/service.html"
     },
-    "url": "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_2.10.13.202675_32.exe#/dl.7z",
-    "hash": "45f8aa74a4bae7b253fe370a129f3fe22cedb8b24e3c06d04c772dd41486ffb2",
+    "architecture": {
+        "64bit": {
+            "url": "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_3.1.7.203649_64.exe#/dl.7z",
+            "hash": "bb73f2b725ff71456c9c443f4c1953e6fc5dd0cebf22f9e40cfff27496f57522"
+        },
+        "32bit": {
+            "url": "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_3.1.7.203649_32.exe#/dl.7z",
+            "hash": "eab5e8d9b0d8e3fac03198d57c33e729269461b3a00a37dfc21c790c01ce6559"
+        }
+    },
     "installer": {
         "script": [
             "Get-ChildItem \"$dir\\redist_packages\" | Move-Item -Destination \"$dir\" -Force",
@@ -32,10 +40,18 @@
         ]
     ],
     "checkver": {
-        "script": "return (iwr -useb 'https://music.163.com/api/pc/package/download/latest' -Method Head).Headers['x-nos-object-name']",
-        "regex": "(?<version>[\\d.]+(?:_[\\d.]+)?).exe"
+        "url": "https://music.163.com/api/appcustomconfig/get",
+        "jsonpath": "$.data.web-new-download.pc64.downloadUrl",
+        "regex": "NeteaseCloudMusic_Music_official_([\\d.]+)_64.exe"
     },
     "autoupdate": {
-        "url": "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_$version.exe#/dl.7z"
+        "architecture": {
+            "64bit": {
+                "url": "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_$version_64.exe#/dl.7z"
+            },
+            "32bit": {
+                "url": "https://d1.music.126.net/dmusic/NeteaseCloudMusic_Music_official_$version_32.exe#/dl.7z"
+            }
+        }
     }
 }
